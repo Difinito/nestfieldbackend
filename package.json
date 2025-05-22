@@ -19,7 +19,8 @@
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio",
-    "prisma:seed": "ts-node prisma/seed.ts"
+    "prisma:seed": "ts-node prisma/seed.ts",
+    "preinstall": "npm cache clean --force"
   },
   "keywords": [],
   "author": "",
@@ -33,7 +34,7 @@
     "@nestjs/mapped-types": "2.0.4",
     "@nestjs/passport": "10.0.3",
     "@nestjs/platform-express": "10.0.0",
-    "@nestjs/schedule": "4.0.0",
+    "@nestjs/schedule": "3.0.3",
     "@nestjs/swagger": "7.1.17",
     "@prisma/client": "^6.8.2",
     "bcrypt": "^6.0.0",
@@ -55,5 +56,14 @@
     "@types/node": "^22.15.19",
     "prisma": "^6.8.2",
     "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "resolutions": {
+    "@nestjs/schedule": "3.0.3"
+  },
+  "overrides": {
+    "@nestjs/schedule": "3.0.3"
   }
 }

@@ -13,10 +13,11 @@
       "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
     }
   ],
-  "installCommand": "npm install --legacy-peer-deps --no-audit",
-  "buildCommand": "npx prisma generate && npm run build",
+  "buildCommand": "chmod +x vercel-build.sh && ./vercel-build.sh",
+  "installCommand": "echo 'Custom install via build script'",
   "env": {
     "NODE_ENV": "production",
-    "NODE_OPTIONS": "--max_old_space_size=1024"
+    "NODE_OPTIONS": "--max_old_space_size=1024",
+    "NPM_FLAGS": "--legacy-peer-deps --force"
   }
 } 
