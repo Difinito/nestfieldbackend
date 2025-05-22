@@ -1,0 +1,93 @@
+import { PrismaService } from '../prisma/prisma.service';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+export declare class UsersService {
+    private prisma;
+    constructor(prisma: PrismaService);
+    create(createUserDto: CreateUserDto): Promise<{
+        id: string;
+        createdAt: Date;
+        email: string;
+        password: string;
+        firstName: string;
+        lastName: string;
+        phone: string | null;
+        role: import(".prisma/client").$Enums.UserRole;
+        referralCode: string;
+        referredBy: string | null;
+        referralBonus: number;
+        isActive: boolean;
+    }>;
+    findAll(): Promise<{
+        id: string;
+        createdAt: Date;
+        email: string;
+        password: string;
+        firstName: string;
+        lastName: string;
+        phone: string | null;
+        role: import(".prisma/client").$Enums.UserRole;
+        referralCode: string;
+        referredBy: string | null;
+        referralBonus: number;
+        isActive: boolean;
+    }[]>;
+    findOne(id: string): Promise<{
+        id: string;
+        createdAt: Date;
+        email: string;
+        password: string;
+        firstName: string;
+        lastName: string;
+        phone: string | null;
+        role: import(".prisma/client").$Enums.UserRole;
+        referralCode: string;
+        referredBy: string | null;
+        referralBonus: number;
+        isActive: boolean;
+    }>;
+    findByEmail(email: string): Promise<{
+        id: string;
+        createdAt: Date;
+        email: string;
+        password: string;
+        firstName: string;
+        lastName: string;
+        phone: string | null;
+        role: import(".prisma/client").$Enums.UserRole;
+        referralCode: string;
+        referredBy: string | null;
+        referralBonus: number;
+        isActive: boolean;
+    }>;
+    update(id: string, updateUserDto: UpdateUserDto): Promise<{
+        id: string;
+        createdAt: Date;
+        email: string;
+        password: string;
+        firstName: string;
+        lastName: string;
+        phone: string | null;
+        role: import(".prisma/client").$Enums.UserRole;
+        referralCode: string;
+        referredBy: string | null;
+        referralBonus: number;
+        isActive: boolean;
+    }>;
+    remove(id: string): Promise<void>;
+    validateUser(email: string, password: string): Promise<{
+        id: string;
+        createdAt: Date;
+        email: string;
+        password: string;
+        firstName: string;
+        lastName: string;
+        phone: string | null;
+        role: import(".prisma/client").$Enums.UserRole;
+        referralCode: string;
+        referredBy: string | null;
+        referralBonus: number;
+        isActive: boolean;
+    }>;
+    private generateReferralCode;
+}

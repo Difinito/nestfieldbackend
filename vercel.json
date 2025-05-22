@@ -9,9 +9,14 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "dist/main.js"
+      "dest": "dist/main.js",
+      "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
     }
   ],
-  "installCommand": "npm install --legacy-peer-deps",
-  "buildCommand": "npm run build"
+  "installCommand": "npm install --legacy-peer-deps --no-audit",
+  "buildCommand": "npx prisma generate && npm run build",
+  "env": {
+    "NODE_ENV": "production",
+    "NODE_OPTIONS": "--max_old_space_size=1024"
+  }
 } 
