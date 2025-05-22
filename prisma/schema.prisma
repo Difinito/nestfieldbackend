@@ -1,0 +1,159 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://postgres:Tr@shc@n@12345@localhost:5432/nestholdings?schema=public"
+}
+
+model User {
+  id            String        @id @default(uuid())
+  email         String        @unique
+  password      String
+  firstName     String
+  lastName      String
+  phone         String?
+  role          UserRole      @default(USER)
+  referralCode  String        @unique
+  referredBy    String?
+  referralBonus Float         @default(0)
+  isActive      Boolean       @default(true)
+  createdAt     DateTime      @default(now())
+  achievements  Achievement[]
+  investments   Investment[]
+  transactions  Transaction[]
+  withdrawals   Withdrawal[]
+}
+
+model Event {
+  id          String    @id @default(uuid())
+  title       String
+  description String
+  startDate   DateTime
+  endDate     DateTime?
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+}
+
+model Achievement {
+  id           String          @id @default(uuid())
+  userId       String
+  name         String
+  description  String
+  type         AchievementType
+  targetValue  Float
+  currentValue Float           @default(0)
+  isComplete   Boolean         @default(false)
+  completedAt  DateTime?
+  createdAt    DateTime        @default(now())
+  user         User            @relation(fields: [userId], references: [id])
+}
+
+model Transaction {
+  id            String            @id @default(uuid())
+  userId        String
+  type          TransactionType
+  status        TransactionStatus
+  amount        Float
+  asset         CryptoAsset       @default(USD)
+  walletAddress String?
+  txHash        String?
+  notes         String?
+  completedAt   DateTime?
+  createdAt     DateTime          @default(now())
+  user          User              @relation(fields: [userId], references: [id])
+}
+
+model InvestmentPlan {
+  id          String       @id @default(uuid())
+  name        String
+  description String
+  minAmount   Float
+  maxAmount   Float?
+  returnRate  Float
+  duration    Int
+  isActive    Boolean      @default(true)
+  createdAt   DateTime     @default(now())
+  investments Investment[]
+}
+
+model Investment {
+  id             String           @id @default(uuid())
+  userId         String
+  planId         String
+  amount         Float
+  returnAmount   Float
+  startDate      DateTime
+  endDate        DateTime?
+  status         InvestmentStatus
+  nextPayoutDate DateTime?
+  createdAt      DateTime         @default(now())
+  plan           InvestmentPlan   @relation(fields: [planId], references: [id])
+  user           User             @relation(fields: [userId], references: [id])
+}
+
+model Withdrawal {
+  id              String        @id @default(uuid())
+  userId          String
+  amount          Float
+  currency        CryptoAsset   @default(USD)
+  status          TransactionStatus
+  paymentMethod   PaymentMethod
+  accountDetails  Json
+  transactionHash String?
+  fee             Float         @default(0)
+  netAmount       Float
+  notes           String?
+  processedAt     DateTime?
+  createdAt       DateTime      @default(now())
+  user            User          @relation(fields: [userId], references: [id])
+}
+
+enum AchievementType {
+  INVESTMENT_COUNT
+  INVESTMENT_AMOUNT
+  DEPOSIT_AMOUNT
+  REFERRAL_COUNT
+  DAYS_ACTIVE
+}
+
+enum TransactionType {
+  DEPOSIT
+  WITHDRAWAL
+  PROFIT
+  REFERRAL_BONUS
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  REJECTED
+}
+
+enum InvestmentStatus {
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum CryptoAsset {
+  USD
+  BTC
+  ETH
+  USDT
+  USDC
+}
+
+enum PaymentMethod {
+  BANK_TRANSFER
+  CRYPTO
+  PAYPAL
+  CREDIT_CARD
+  WIRE_TRANSFER
+}

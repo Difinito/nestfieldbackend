@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test Registration</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 500px; margin: 0 auto; padding: 20px; }
+    .form-group { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 5px; }
+    input { width: 100%; padding: 8px; box-sizing: border-box; }
+    button { padding: 10px 15px; background: #4CAF50; color: white; border: none; cursor: pointer; }
+    #result { margin-top: 20px; padding: 10px; border: 1px solid #ddd; display: none; }
+  </style>
+</head>
+<body>
+  <h1>Test Registration</h1>
+  
+  <div class="form-group">
+    <label for="email">Email:</label>
+    <input type="email" id="email" value="test@example.com">
+  </div>
+  
+  <div class="form-group">
+    <label for="firstName">First Name:</label>
+    <input type="text" id="firstName" value="John">
+  </div>
+  
+  <div class="form-group">
+    <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" value="Doe">
+  </div>
+  
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input type="password" id="password" value="password123">
+  </div>
+  
+  <button onclick="register()">Register</button>
+  
+  <div id="result"></div>
+  
+  <script>
+    function register() {
+      const email = document.getElementById('email').value;
+      const firstName = document.getElementById('firstName').value;
+      const lastName = document.getElementById('lastName').value;
+      const password = document.getElementById('password').value;
+      
+      const data = {
+        email,
+        firstName,
+        lastName,
+        password
+      };
+      
+      fetch('http://localhost:4000/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => {
+        if (!response.ok) {
+          return response.json().then(err => {
+            throw err;
+          });
+        }
+        return response.json();
+      })
+      .then(data => {
+        const resultDiv = document.getElementById('result');
+        resultDiv.textContent = JSON.stringify(data, null, 2);
+        resultDiv.style.display = 'block';
+        resultDiv.style.backgroundColor = '#dff0d8';
+      })
+      .catch(error => {
+        const resultDiv = document.getElementById('result');
+        resultDiv.textContent = JSON.stringify(error, null, 2);
+        resultDiv.style.display = 'block';
+        resultDiv.style.backgroundColor = '#f2dede';
+      });
+    }
+  </script>
+</body>
+</html> 
