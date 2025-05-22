@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -13,7 +14,17 @@ async function bootstrap() {
     transform: true,
   }));
   
-  await app.listen(4000);
+  // Swagger documentation setup
+  const config = new DocumentBuilder()
+    .setTitle('Nestfield Holdings API')
+    .setDescription('API documentation for Nestfield Holdings investment platform')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api/docs', app, document);
+  
+  await app.listen(process.env.PORT || 4000);
   console.log(`Application is running on: ${await app.getUrl()}`);
 }
 
