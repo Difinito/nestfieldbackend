@@ -1,4 +1,4 @@
-import { PrismaClient } from '../generated/prisma';
+import { PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import { AchievementType, TransactionStatus, TransactionType, InvestmentStatus, UserRole, CryptoAsset, PaymentMethod } from '../src/common/enums';
 

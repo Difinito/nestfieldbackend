@@ -18,6 +18,8 @@
   "env": {
     "NODE_ENV": "production",
     "NODE_OPTIONS": "--max_old_space_size=1024",
-    "NPM_FLAGS": "--legacy-peer-deps --force"
+    "NPM_FLAGS": "--legacy-peer-deps --force",
+    "PRISMA_GENERATE_DATAPROXY": "true",
+    "PRISMA_GENERATE_BINARY_TARGETS": "native,rhel-openssl-1.0.x"
   }
 } 
