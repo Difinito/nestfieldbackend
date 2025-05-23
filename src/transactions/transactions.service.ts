@@ -30,12 +30,22 @@ export class TransactionsService {
   }
 
   async findAll(userId: string, page = 1, limit = 10) {
+    // Ensure we have valid numbers
+    if (!Number.isInteger(page) || !Number.isInteger(limit)) {
+      page = 1;
+      limit = 10;
+    }
+
+    // Validate and sanitize page and limit
+    const validPage = Math.max(1, page);
+    const validLimit = Math.min(100, Math.max(1, limit));
+
     const [transactions, total] = await Promise.all([
       this.prisma.transaction.findMany({
         where: { userId },
         orderBy: { createdAt: 'desc' },
-        skip: (page - 1) * limit,
-        take: limit,
+        skip: (validPage - 1) * validLimit,
+        take: validLimit,
       }),
       this.prisma.transaction.count({
         where: { userId },

@@ -6,112 +6,112 @@ export declare class WithdrawalsService {
     constructor(prisma: PrismaService);
     create(userId: string, createWithdrawalDto: CreateWithdrawalDto): Promise<{
         id: string;
-        userId: string;
+        createdAt: Date;
         amount: number;
-        currency: import(".prisma/client").$Enums.CryptoAsset;
+        userId: string;
         status: import(".prisma/client").$Enums.TransactionStatus;
+        notes: string | null;
+        currency: import(".prisma/client").$Enums.CryptoAsset;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
-        accountDetails: import("@prisma/client/runtime/library").JsonValue;
+        accountDetails: import(".prisma/client/runtime/library").JsonValue;
         transactionHash: string | null;
         fee: number;
         netAmount: number;
-        notes: string | null;
         processedAt: Date | null;
-        createdAt: Date;
     }>;
     findByUserId(userId: string): Promise<{
         id: string;
-        userId: string;
+        createdAt: Date;
         amount: number;
-        currency: import(".prisma/client").$Enums.CryptoAsset;
+        userId: string;
         status: import(".prisma/client").$Enums.TransactionStatus;
+        notes: string | null;
+        currency: import(".prisma/client").$Enums.CryptoAsset;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
-        accountDetails: import("@prisma/client/runtime/library").JsonValue;
+        accountDetails: import(".prisma/client/runtime/library").JsonValue;
         transactionHash: string | null;
         fee: number;
         netAmount: number;
-        notes: string | null;
         processedAt: Date | null;
-        createdAt: Date;
     }[]>;
     findOne(userId: string, id: string): Promise<{
         id: string;
-        userId: string;
+        createdAt: Date;
         amount: number;
-        currency: import(".prisma/client").$Enums.CryptoAsset;
+        userId: string;
         status: import(".prisma/client").$Enums.TransactionStatus;
+        notes: string | null;
+        currency: import(".prisma/client").$Enums.CryptoAsset;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
-        accountDetails: import("@prisma/client/runtime/library").JsonValue;
+        accountDetails: import(".prisma/client/runtime/library").JsonValue;
         transactionHash: string | null;
         fee: number;
         netAmount: number;
-        notes: string | null;
         processedAt: Date | null;
-        createdAt: Date;
     }>;
     findAll(): Promise<({
         user: {
-            id: string;
             email: string;
             firstName: string;
             lastName: string;
+            id: string;
         };
     } & {
         id: string;
-        userId: string;
+        createdAt: Date;
         amount: number;
-        currency: import(".prisma/client").$Enums.CryptoAsset;
+        userId: string;
         status: import(".prisma/client").$Enums.TransactionStatus;
+        notes: string | null;
+        currency: import(".prisma/client").$Enums.CryptoAsset;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
-        accountDetails: import("@prisma/client/runtime/library").JsonValue;
+        accountDetails: import(".prisma/client/runtime/library").JsonValue;
         transactionHash: string | null;
         fee: number;
         netAmount: number;
-        notes: string | null;
         processedAt: Date | null;
-        createdAt: Date;
     })[]>;
     findOneAdmin(id: string): Promise<{
         user: {
-            id: string;
             email: string;
             firstName: string;
             lastName: string;
             phone: string;
+            id: string;
         };
     } & {
         id: string;
-        userId: string;
+        createdAt: Date;
         amount: number;
-        currency: import(".prisma/client").$Enums.CryptoAsset;
+        userId: string;
         status: import(".prisma/client").$Enums.TransactionStatus;
+        notes: string | null;
+        currency: import(".prisma/client").$Enums.CryptoAsset;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
-        accountDetails: import("@prisma/client/runtime/library").JsonValue;
+        accountDetails: import(".prisma/client/runtime/library").JsonValue;
         transactionHash: string | null;
         fee: number;
         netAmount: number;
-        notes: string | null;
         processedAt: Date | null;
-        createdAt: Date;
     }>;
     updateStatus(id: string, status: TransactionStatus, transactionHash?: string, notes?: string): Promise<{
         user: {
-            id: string;
             email: string;
+            id: string;
         };
     } & {
         id: string;
-        userId: string;
+        createdAt: Date;
         amount: number;
-        currency: import(".prisma/client").$Enums.CryptoAsset;
+        userId: string;
         status: import(".prisma/client").$Enums.TransactionStatus;
+        notes: string | null;
+        currency: import(".prisma/client").$Enums.CryptoAsset;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
-        accountDetails: import("@prisma/client/runtime/library").JsonValue;
+        accountDetails: import(".prisma/client/runtime/library").JsonValue;
         transactionHash: string | null;
         fee: number;
         netAmount: number;
-        notes: string | null;
         processedAt: Date | null;
-        createdAt: Date;
     }>;
 }

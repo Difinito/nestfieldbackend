@@ -18,10 +18,12 @@ export class TransactionsController {
   @Get()
   findAll(
     @Request() req,
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
   ) {
-    return this.transactionsService.findAll(req.user.userId, page, limit);
+    const parsedPage = page ? parseInt(page, 10) : 1;
+    const parsedLimit = limit ? parseInt(limit, 10) : 10;
+    return this.transactionsService.findAll(req.user.userId, parsedPage, parsedLimit);
   }
 
   @Get('stats')

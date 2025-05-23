@@ -4,87 +4,87 @@ export declare class AdminWithdrawalsController {
     constructor(withdrawalsService: WithdrawalsService);
     findAll(): Promise<({
         user: {
-            id: string;
             email: string;
             firstName: string;
             lastName: string;
+            id: string;
         };
     } & {
         id: string;
-        userId: string;
+        createdAt: Date;
         amount: number;
-        currency: import(".prisma/client").$Enums.CryptoAsset;
+        userId: string;
         status: import(".prisma/client").$Enums.TransactionStatus;
+        notes: string | null;
+        currency: import(".prisma/client").$Enums.CryptoAsset;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
-        accountDetails: import("@prisma/client/runtime/library").JsonValue;
+        accountDetails: import(".prisma/client/runtime/library").JsonValue;
         transactionHash: string | null;
         fee: number;
         netAmount: number;
-        notes: string | null;
         processedAt: Date | null;
-        createdAt: Date;
     })[]>;
     findOne(id: string): Promise<{
         user: {
-            id: string;
             email: string;
             firstName: string;
             lastName: string;
             phone: string;
+            id: string;
         };
     } & {
         id: string;
-        userId: string;
+        createdAt: Date;
         amount: number;
-        currency: import(".prisma/client").$Enums.CryptoAsset;
+        userId: string;
         status: import(".prisma/client").$Enums.TransactionStatus;
+        notes: string | null;
+        currency: import(".prisma/client").$Enums.CryptoAsset;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
-        accountDetails: import("@prisma/client/runtime/library").JsonValue;
+        accountDetails: import(".prisma/client/runtime/library").JsonValue;
         transactionHash: string | null;
         fee: number;
         netAmount: number;
-        notes: string | null;
         processedAt: Date | null;
-        createdAt: Date;
     }>;
     approve(id: string, transactionHash?: string): Promise<{
         user: {
-            id: string;
             email: string;
+            id: string;
         };
     } & {
         id: string;
-        userId: string;
+        createdAt: Date;
         amount: number;
-        currency: import(".prisma/client").$Enums.CryptoAsset;
+        userId: string;
         status: import(".prisma/client").$Enums.TransactionStatus;
+        notes: string | null;
+        currency: import(".prisma/client").$Enums.CryptoAsset;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
-        accountDetails: import("@prisma/client/runtime/library").JsonValue;
+        accountDetails: import(".prisma/client/runtime/library").JsonValue;
         transactionHash: string | null;
         fee: number;
         netAmount: number;
-        notes: string | null;
         processedAt: Date | null;
-        createdAt: Date;
     }>;
     reject(id: string, reason?: string): Promise<{
         user: {
-            id: string;
             email: string;
+            id: string;
         };
     } & {
         id: string;
-        userId: string;
+        createdAt: Date;
         amount: number;
-        currency: import(".prisma/client").$Enums.CryptoAsset;
+        userId: string;
         status: import(".prisma/client").$Enums.TransactionStatus;
+        notes: string | null;
+        currency: import(".prisma/client").$Enums.CryptoAsset;
         paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
-        accountDetails: import("@prisma/client/runtime/library").JsonValue;
+        accountDetails: import(".prisma/client/runtime/library").JsonValue;
         transactionHash: string | null;
         fee: number;
         netAmount: number;
-        notes: string | null;
         processedAt: Date | null;
-        createdAt: Date;
     }>;
 }

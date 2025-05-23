@@ -7,22 +7,22 @@ export declare class InvestmentsService {
     constructor(prisma: PrismaService, usersService: UsersService);
     create(userId: string, createUserInvestmentDto: CreateUserInvestmentDto): Promise<{
         id: string;
-        userId: string;
-        amount: number;
-        status: import(".prisma/client").$Enums.InvestmentStatus;
         createdAt: Date;
         planId: string;
+        amount: number;
+        userId: string;
         returnAmount: number;
         startDate: Date;
         endDate: Date | null;
+        status: import(".prisma/client").$Enums.InvestmentStatus;
         nextPayoutDate: Date | null;
     }>;
     findAll(userId: string): Promise<({
         plan: {
-            name: string;
             id: string;
-            createdAt: Date;
             isActive: boolean;
+            createdAt: Date;
+            name: string;
             description: string;
             minAmount: number;
             maxAmount: number | null;
@@ -31,22 +31,22 @@ export declare class InvestmentsService {
         };
     } & {
         id: string;
-        userId: string;
-        amount: number;
-        status: import(".prisma/client").$Enums.InvestmentStatus;
         createdAt: Date;
         planId: string;
+        amount: number;
+        userId: string;
         returnAmount: number;
         startDate: Date;
         endDate: Date | null;
+        status: import(".prisma/client").$Enums.InvestmentStatus;
         nextPayoutDate: Date | null;
     })[]>;
     findOne(userId: string, id: string): Promise<{
         plan: {
-            name: string;
             id: string;
-            createdAt: Date;
             isActive: boolean;
+            createdAt: Date;
+            name: string;
             description: string;
             minAmount: number;
             maxAmount: number | null;
@@ -55,38 +55,38 @@ export declare class InvestmentsService {
         };
     } & {
         id: string;
-        userId: string;
-        amount: number;
-        status: import(".prisma/client").$Enums.InvestmentStatus;
         createdAt: Date;
         planId: string;
+        amount: number;
+        userId: string;
         returnAmount: number;
         startDate: Date;
         endDate: Date | null;
+        status: import(".prisma/client").$Enums.InvestmentStatus;
         nextPayoutDate: Date | null;
     }>;
     activateInvestment(id: string): Promise<{
         id: string;
-        userId: string;
-        amount: number;
-        status: import(".prisma/client").$Enums.InvestmentStatus;
         createdAt: Date;
         planId: string;
+        amount: number;
+        userId: string;
         returnAmount: number;
         startDate: Date;
         endDate: Date | null;
+        status: import(".prisma/client").$Enums.InvestmentStatus;
         nextPayoutDate: Date | null;
     }>;
     completeInvestment(id: string): Promise<{
         id: string;
-        userId: string;
-        amount: number;
-        status: import(".prisma/client").$Enums.InvestmentStatus;
         createdAt: Date;
         planId: string;
+        amount: number;
+        userId: string;
         returnAmount: number;
         startDate: Date;
         endDate: Date | null;
+        status: import(".prisma/client").$Enums.InvestmentStatus;
         nextPayoutDate: Date | null;
     }>;
     calculateDailyProfits(): Promise<void>;

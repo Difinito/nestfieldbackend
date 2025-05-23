@@ -34,12 +34,18 @@ let TransactionsService = class TransactionsService {
         });
     }
     async findAll(userId, page = 1, limit = 10) {
+        if (!Number.isInteger(page) || !Number.isInteger(limit)) {
+            page = 1;
+            limit = 10;
+        }
+        const validPage = Math.max(1, page);
+        const validLimit = Math.min(100, Math.max(1, limit));
         const [transactions, total] = await Promise.all([
             this.prisma.transaction.findMany({
                 where: { userId },
                 orderBy: { createdAt: 'desc' },
-                skip: (page - 1) * limit,
-                take: limit,
+                skip: (validPage - 1) * validLimit,
+                take: validLimit,
             }),
             this.prisma.transaction.count({
                 where: { userId },

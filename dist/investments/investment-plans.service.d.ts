@@ -4,10 +4,10 @@ export declare class InvestmentPlansService {
     private prisma;
     constructor(prisma: PrismaService);
     create(createInvestmentPlanDto: CreateInvestmentPlanDto): Promise<{
-        name: string;
         id: string;
-        createdAt: Date;
         isActive: boolean;
+        createdAt: Date;
+        name: string;
         description: string;
         minAmount: number;
         maxAmount: number | null;
@@ -15,10 +15,10 @@ export declare class InvestmentPlansService {
         duration: number;
     }>;
     findAll(): Promise<{
-        name: string;
         id: string;
-        createdAt: Date;
         isActive: boolean;
+        createdAt: Date;
+        name: string;
         description: string;
         minAmount: number;
         maxAmount: number | null;
@@ -26,10 +26,10 @@ export declare class InvestmentPlansService {
         duration: number;
     }[]>;
     findAllAdmin(): Promise<{
-        name: string;
         id: string;
-        createdAt: Date;
         isActive: boolean;
+        createdAt: Date;
+        name: string;
         description: string;
         minAmount: number;
         maxAmount: number | null;
@@ -37,10 +37,10 @@ export declare class InvestmentPlansService {
         duration: number;
     }[]>;
     findOne(id: string): Promise<{
-        name: string;
         id: string;
-        createdAt: Date;
         isActive: boolean;
+        createdAt: Date;
+        name: string;
         description: string;
         minAmount: number;
         maxAmount: number | null;
@@ -48,10 +48,10 @@ export declare class InvestmentPlansService {
         duration: number;
     }>;
     update(id: string, updatePlanDto: any): Promise<{
-        name: string;
         id: string;
-        createdAt: Date;
         isActive: boolean;
+        createdAt: Date;
+        name: string;
         description: string;
         minAmount: number;
         maxAmount: number | null;

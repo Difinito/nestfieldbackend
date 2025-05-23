@@ -5,8 +5,8 @@ export declare class EventsController {
     constructor(eventsService: EventsService);
     findAll(): Promise<{
         id: string;
-        createdAt: Date;
         isActive: boolean;
+        createdAt: Date;
         description: string;
         startDate: Date;
         endDate: Date | null;
@@ -14,8 +14,8 @@ export declare class EventsController {
     }[]>;
     findUpcoming(): Promise<{
         id: string;
-        createdAt: Date;
         isActive: boolean;
+        createdAt: Date;
         description: string;
         startDate: Date;
         endDate: Date | null;
@@ -23,8 +23,8 @@ export declare class EventsController {
     }[]>;
     findOne(id: string): Promise<{
         id: string;
-        createdAt: Date;
         isActive: boolean;
+        createdAt: Date;
         description: string;
         startDate: Date;
         endDate: Date | null;
@@ -32,8 +32,8 @@ export declare class EventsController {
     }>;
     create(createEventDto: CreateEventDto): Promise<{
         id: string;
-        createdAt: Date;
         isActive: boolean;
+        createdAt: Date;
         description: string;
         startDate: Date;
         endDate: Date | null;
@@ -41,8 +41,8 @@ export declare class EventsController {
     }>;
     update(id: string, updateEventDto: Partial<Event>): Promise<{
         id: string;
-        createdAt: Date;
         isActive: boolean;
+        createdAt: Date;
         description: string;
         startDate: Date;
         endDate: Date | null;

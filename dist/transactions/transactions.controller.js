@@ -26,8 +26,10 @@ let TransactionsController = class TransactionsController {
     create(req, createTransactionDto) {
         return this.transactionsService.create(req.user.userId, createTransactionDto);
     }
-    findAll(req, page = 1, limit = 10) {
-        return this.transactionsService.findAll(req.user.userId, page, limit);
+    findAll(req, page, limit) {
+        const parsedPage = page ? parseInt(page, 10) : 1;
+        const parsedLimit = limit ? parseInt(limit, 10) : 10;
+        return this.transactionsService.findAll(req.user.userId, parsedPage, parsedLimit);
     }
     getStats(req) {
         return this.transactionsService.getUserTransactionStats(req.user.userId);
@@ -57,7 +59,7 @@ __decorate([
     __param(1, (0, common_1.Query)('page')),
     __param(2, (0, common_1.Query)('limit')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Number, Number]),
+    __metadata("design:paramtypes", [Object, String, String]),
     __metadata("design:returntype", void 0)
 ], TransactionsController.prototype, "findAll", null);
 __decorate([

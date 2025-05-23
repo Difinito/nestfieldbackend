@@ -4,10 +4,10 @@ export declare class InvestmentPlansController {
     private readonly investmentPlansService;
     constructor(investmentPlansService: InvestmentPlansService);
     findAll(): Promise<{
-        name: string;
         id: string;
-        createdAt: Date;
         isActive: boolean;
+        createdAt: Date;
+        name: string;
         description: string;
         minAmount: number;
         maxAmount: number | null;
@@ -15,10 +15,10 @@ export declare class InvestmentPlansController {
         duration: number;
     }[]>;
     findOne(id: string): Promise<{
-        name: string;
         id: string;
-        createdAt: Date;
         isActive: boolean;
+        createdAt: Date;
+        name: string;
         description: string;
         minAmount: number;
         maxAmount: number | null;
@@ -26,10 +26,10 @@ export declare class InvestmentPlansController {
         duration: number;
     }>;
     findAllAdmin(): Promise<{
-        name: string;
         id: string;
-        createdAt: Date;
         isActive: boolean;
+        createdAt: Date;
+        name: string;
         description: string;
         minAmount: number;
         maxAmount: number | null;
@@ -37,10 +37,10 @@ export declare class InvestmentPlansController {
         duration: number;
     }[]>;
     create(createInvestmentPlanDto: CreateInvestmentPlanDto): Promise<{
-        name: string;
         id: string;
-        createdAt: Date;
         isActive: boolean;
+        createdAt: Date;
+        name: string;
         description: string;
         minAmount: number;
         maxAmount: number | null;
@@ -48,10 +48,10 @@ export declare class InvestmentPlansController {
         duration: number;
     }>;
     update(id: string, updatePlanDto: any): Promise<{
-        name: string;
         id: string;
-        createdAt: Date;
         isActive: boolean;
+        createdAt: Date;
+        name: string;
         description: string;
         minAmount: number;
         maxAmount: number | null;

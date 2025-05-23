@@ -17,16 +17,16 @@ export declare class AuthController {
         accessToken: string;
     }>;
     getProfile(req: any): Promise<{
-        id: string;
-        createdAt: Date;
         email: string;
         firstName: string;
         lastName: string;
+        referredBy: string | null;
         phone: string | null;
+        referralBonus: number;
+        id: string;
         role: import(".prisma/client").$Enums.UserRole;
         referralCode: string;
-        referredBy: string | null;
-        referralBonus: number;
         isActive: boolean;
+        createdAt: Date;
     }>;
 }

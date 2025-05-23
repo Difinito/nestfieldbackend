@@ -5,30 +5,30 @@ export declare class TransactionsController {
     constructor(transactionsService: TransactionsService);
     create(req: any, createTransactionDto: CreateTransactionDto): Promise<{
         id: string;
-        userId: string;
-        amount: number;
-        status: import(".prisma/client").$Enums.TransactionStatus;
-        notes: string | null;
         createdAt: Date;
+        amount: number;
+        userId: string;
+        status: import(".prisma/client").$Enums.TransactionStatus;
         type: import(".prisma/client").$Enums.TransactionType;
-        completedAt: Date | null;
         asset: import(".prisma/client").$Enums.CryptoAsset;
         walletAddress: string | null;
         txHash: string | null;
+        notes: string | null;
+        completedAt: Date | null;
     }>;
-    findAll(req: any, page?: number, limit?: number): Promise<{
+    findAll(req: any, page?: string, limit?: string): Promise<{
         transactions: {
             id: string;
-            userId: string;
-            amount: number;
-            status: import(".prisma/client").$Enums.TransactionStatus;
-            notes: string | null;
             createdAt: Date;
+            amount: number;
+            userId: string;
+            status: import(".prisma/client").$Enums.TransactionStatus;
             type: import(".prisma/client").$Enums.TransactionType;
-            completedAt: Date | null;
             asset: import(".prisma/client").$Enums.CryptoAsset;
             walletAddress: string | null;
             txHash: string | null;
+            notes: string | null;
+            completedAt: Date | null;
         }[];
         total: number;
     }>;
@@ -40,55 +40,55 @@ export declare class TransactionsController {
         balance: number;
         recentTransactions: {
             id: string;
-            userId: string;
-            amount: number;
-            status: import(".prisma/client").$Enums.TransactionStatus;
-            notes: string | null;
             createdAt: Date;
+            amount: number;
+            userId: string;
+            status: import(".prisma/client").$Enums.TransactionStatus;
             type: import(".prisma/client").$Enums.TransactionType;
-            completedAt: Date | null;
             asset: import(".prisma/client").$Enums.CryptoAsset;
             walletAddress: string | null;
             txHash: string | null;
+            notes: string | null;
+            completedAt: Date | null;
         }[];
     }>;
     findOne(req: any, id: string): Promise<{
         id: string;
-        userId: string;
-        amount: number;
-        status: import(".prisma/client").$Enums.TransactionStatus;
-        notes: string | null;
         createdAt: Date;
+        amount: number;
+        userId: string;
+        status: import(".prisma/client").$Enums.TransactionStatus;
         type: import(".prisma/client").$Enums.TransactionType;
-        completedAt: Date | null;
         asset: import(".prisma/client").$Enums.CryptoAsset;
         walletAddress: string | null;
         txHash: string | null;
+        notes: string | null;
+        completedAt: Date | null;
     }>;
     approve(id: string): Promise<{
         id: string;
-        userId: string;
-        amount: number;
-        status: import(".prisma/client").$Enums.TransactionStatus;
-        notes: string | null;
         createdAt: Date;
+        amount: number;
+        userId: string;
+        status: import(".prisma/client").$Enums.TransactionStatus;
         type: import(".prisma/client").$Enums.TransactionType;
-        completedAt: Date | null;
         asset: import(".prisma/client").$Enums.CryptoAsset;
         walletAddress: string | null;
         txHash: string | null;
+        notes: string | null;
+        completedAt: Date | null;
     }>;
     reject(id: string): Promise<{
         id: string;
-        userId: string;
-        amount: number;
-        status: import(".prisma/client").$Enums.TransactionStatus;
-        notes: string | null;
         createdAt: Date;
+        amount: number;
+        userId: string;
+        status: import(".prisma/client").$Enums.TransactionStatus;
         type: import(".prisma/client").$Enums.TransactionType;
-        completedAt: Date | null;
         asset: import(".prisma/client").$Enums.CryptoAsset;
         walletAddress: string | null;
         txHash: string | null;
+        notes: string | null;
+        completedAt: Date | null;
     }>;
 }

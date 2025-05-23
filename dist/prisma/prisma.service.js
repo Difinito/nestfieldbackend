@@ -8,41 +8,30 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var PrismaService_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PrismaService = void 0;
 const common_1 = require("@nestjs/common");
 const client_1 = require("@prisma/client");
-const config_1 = require("@nestjs/config");
-let PrismaService = PrismaService_1 = class PrismaService extends client_1.PrismaClient {
-    constructor(configService) {
-        const isProduction = configService.get('NODE_ENV') === 'production';
+let PrismaService = class PrismaService extends client_1.PrismaClient {
+    constructor() {
         super({
-            log: isProduction ? ['error'] : ['query', 'info', 'warn', 'error'],
-            errorFormat: isProduction ? 'minimal' : 'colorless',
+            datasources: {
+                db: {
+                    url: process.env.DATABASE_URL,
+                },
+            },
         });
-        this.configService = configService;
-        this.logger = new common_1.Logger(PrismaService_1.name);
     }
     async onModuleInit() {
-        this.logger.log('Connecting to database...');
-        try {
-            await this.$connect();
-            this.logger.log('Successfully connected to database');
-        }
-        catch (error) {
-            this.logger.error('Failed to connect to database', error);
-            throw error;
-        }
+        await this.$connect();
     }
     async onModuleDestroy() {
-        this.logger.log('Disconnecting from database...');
         await this.$disconnect();
     }
 };
 exports.PrismaService = PrismaService;
-exports.PrismaService = PrismaService = PrismaService_1 = __decorate([
+exports.PrismaService = PrismaService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [config_1.ConfigService])
+    __metadata("design:paramtypes", [])
 ], PrismaService);
 //# sourceMappingURL=prisma.service.js.map

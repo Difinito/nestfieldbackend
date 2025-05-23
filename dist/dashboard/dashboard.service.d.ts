@@ -36,16 +36,16 @@ export declare class DashboardService {
     }>;
     getRecentTransactions(userId: string): Promise<{
         id: string;
-        userId: string;
-        amount: number;
-        status: import(".prisma/client").$Enums.TransactionStatus;
-        notes: string | null;
         createdAt: Date;
+        amount: number;
+        userId: string;
+        status: import(".prisma/client").$Enums.TransactionStatus;
         type: import(".prisma/client").$Enums.TransactionType;
-        completedAt: Date | null;
         asset: import(".prisma/client").$Enums.CryptoAsset;
         walletAddress: string | null;
         txHash: string | null;
+        notes: string | null;
+        completedAt: Date | null;
     }[]>;
     getNextPayouts(userId: string): Promise<{
         investmentId: string;
@@ -54,21 +54,21 @@ export declare class DashboardService {
         estimatedPayout: number;
     }[]>;
     getAchievements(userId: string): Promise<{
-        name: string;
         id: string;
-        userId: string;
         createdAt: Date;
+        name: string;
         description: string;
+        userId: string;
         type: import(".prisma/client").$Enums.AchievementType;
+        completedAt: Date | null;
         targetValue: number;
         currentValue: number;
         isComplete: boolean;
-        completedAt: Date | null;
     }[]>;
     getUpcomingEvents(): Promise<{
         id: string;
-        createdAt: Date;
         isActive: boolean;
+        createdAt: Date;
         description: string;
         startDate: Date;
         endDate: Date | null;
