@@ -44,11 +44,6 @@ export class TransactionsController {
     return this.transactionsService.getUserTransactionStats(req.user.userId);
   }
 
-  @Get(':id')
-  findOne(@Request() req, @Param('id') id: string) {
-    return this.transactionsService.findOne(req.user.userId, id);
-  }
-
   @UseGuards(RolesGuard)
   @Roles('admin')
   @Put(':id/approve')
@@ -61,5 +56,10 @@ export class TransactionsController {
   @Put(':id/reject')
   reject(@Param('id') id: string) {
     return this.transactionsService.rejectTransaction(id);
+  }
+
+  @Get(':id')
+  findOne(@Request() req, @Param('id') id: string) {
+    return this.transactionsService.findOne(req.user.userId, id);
   }
 } 
