@@ -57,13 +57,10 @@ export class TransactionsController {
   reject(@Param('id') id: string) {
     return this.transactionsService.rejectTransaction(id);
   }
-<<<<<<< HEAD
 
   @Get(':id')
   findOne(@Request() req, @Param('id') id: string) {
     return this.transactionsService.findOne(req.user.userId, id);
   }
 } 
-=======
-} 
->>>>>>> d35ab164e5fd5282e4c0b263fc53b2bd6579e152
+
