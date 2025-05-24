@@ -1,14 +1,19 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UsersService } from '../users/users.service';
-import { TransactionStatus, TransactionType, CryptoAsset } from '../common/enums';
+import { TransactionStatus, TransactionType, CryptoAsset, InvestmentStatus } from '../common/enums';
+import { InvestmentPlansService } from '../investments/investment-plans.service';
+import { CreateDepositWithPlanDto } from './dto/create-deposit-with-plan.dto';
+import { ConfigService } from '../config/config.service';
 
 @Injectable()
 export class TransactionsService {
   constructor(
     private prisma: PrismaService,
     private usersService: UsersService,
+    private investmentPlansService: InvestmentPlansService,
+    private configService: ConfigService,
   ) {}
 
   async create(userId: string, createTransactionDto: CreateTransactionDto) {
@@ -75,6 +80,14 @@ export class TransactionsService {
     if (!transaction) {
       throw new NotFoundException('Pending transaction not found');
     }
+
+    // Parse the notes to get plan information
+    let planInfo;
+    try {
+      planInfo = JSON.parse(transaction.notes);
+    } catch (e) {
+      planInfo = null;
+    }
     
     // If this is a deposit and there's a referred by user, add referral bonus
     if (transaction.type === 'DEPOSIT') {
@@ -102,6 +115,27 @@ export class TransactionsService {
         // Update the referrer's referral bonus
         await this.usersService.update(referrer.id, {
           referralBonus: referrer.referralBonus + bonusAmount,
+        });
+      }
+
+      // If this is a deposit with a plan, create an investment
+      if (planInfo?.planId) {
+        const plan = await this.investmentPlansService.findOne(planInfo.planId);
+        const now = new Date();
+        const endDate = new Date(now);
+        endDate.setDate(endDate.getDate() + plan.duration);
+
+        await this.prisma.investment.create({
+          data: {
+            userId: transaction.userId,
+            planId: planInfo.planId,
+            amount: transaction.amount,
+            returnAmount: transaction.amount * (1 + plan.returnRate / 100),
+            status: InvestmentStatus.ACTIVE,
+            startDate: now,
+            endDate,
+            nextPayoutDate: new Date(now.setDate(now.getDate() + 1)), // Daily payouts
+          }
         });
       }
     }
@@ -172,6 +206,52 @@ export class TransactionsService {
       referralBonuses,
       balance,
       recentTransactions,
+    };
+  }
+
+  async createDepositWithPlan(userId: string, createDepositDto: CreateDepositWithPlanDto) {
+    // Verify the investment plan exists and is active
+    const plan = await this.investmentPlansService.findOne(createDepositDto.planId);
+    
+    if (!plan.isActive) {
+      throw new BadRequestException('This investment plan is not active');
+    }
+
+    // Verify amount is within plan limits
+    if (createDepositDto.amount < plan.minAmount || createDepositDto.amount > plan.maxAmount) {
+      throw new BadRequestException(`Amount must be between ${plan.minAmount} and ${plan.maxAmount}`);
+    }
+
+    // For BTC, ETH, and USDT, require txHash
+    if (['BTC', 'ETH', 'USDT'].includes(createDepositDto.asset) && !createDepositDto.txHash) {
+      throw new BadRequestException('Transaction hash is required for BTC, ETH, and USDT deposits');
+    }
+
+    // Get the wallet address for the selected asset
+    const walletAddress = this.configService.getWalletAddress(createDepositDto.asset);
+
+    // Create the deposit transaction
+    const transaction = await this.prisma.transaction.create({
+      data: {
+        userId,
+        type: TransactionType.DEPOSIT,
+        status: TransactionStatus.PENDING,
+        amount: createDepositDto.amount,
+        asset: createDepositDto.asset,
+        walletAddress: walletAddress,
+        txHash: createDepositDto.txHash,
+        notes: JSON.stringify({
+          planId: createDepositDto.planId,
+          planName: plan.name,
+          returnRate: plan.returnRate,
+          duration: plan.duration
+        })
+      }
+    });
+
+    return {
+      ...transaction,
+      walletAddress // Include the wallet address in the response
     };
   }
 } 
