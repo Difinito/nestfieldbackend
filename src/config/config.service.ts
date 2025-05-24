@@ -21,7 +21,6 @@ export class ConfigService {
       }
     });
   }
-
   getWalletAddress(asset: CryptoAsset): string {
     const address = this.walletAddresses[asset];
     if (!address && asset !== CryptoAsset.USD) {
