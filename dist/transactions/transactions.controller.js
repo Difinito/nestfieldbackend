@@ -16,15 +16,20 @@ exports.TransactionsController = void 0;
 const common_1 = require("@nestjs/common");
 const transactions_service_1 = require("./transactions.service");
 const create_transaction_dto_1 = require("./dto/create-transaction.dto");
+const create_deposit_with_plan_dto_1 = require("./dto/create-deposit-with-plan.dto");
 const jwt_auth_guard_1 = require("../auth/guards/jwt-auth.guard");
 const roles_guard_1 = require("../auth/guards/roles.guard");
 const roles_decorator_1 = require("../auth/decorators/roles.decorator");
+const swagger_1 = require("@nestjs/swagger");
 let TransactionsController = class TransactionsController {
     constructor(transactionsService) {
         this.transactionsService = transactionsService;
     }
     create(req, createTransactionDto) {
         return this.transactionsService.create(req.user.userId, createTransactionDto);
+    }
+    async createDepositWithPlan(req, createDepositDto) {
+        return this.transactionsService.createDepositWithPlan(req.user.userId, createDepositDto);
     }
     findAll(req, page, limit) {
         const parsedPage = page ? parseInt(page, 10) : 1;
@@ -34,14 +39,14 @@ let TransactionsController = class TransactionsController {
     getStats(req) {
         return this.transactionsService.getUserTransactionStats(req.user.userId);
     }
-    findOne(req, id) {
-        return this.transactionsService.findOne(req.user.userId, id);
-    }
     approve(id) {
         return this.transactionsService.approveTransaction(id);
     }
     reject(id) {
         return this.transactionsService.rejectTransaction(id);
+    }
+    findOne(req, id) {
+        return this.transactionsService.findOne(req.user.userId, id);
     }
 };
 exports.TransactionsController = TransactionsController;
@@ -53,6 +58,18 @@ __decorate([
     __metadata("design:paramtypes", [Object, create_transaction_dto_1.CreateTransactionDto]),
     __metadata("design:returntype", void 0)
 ], TransactionsController.prototype, "create", null);
+__decorate([
+    (0, common_1.Post)('deposit-with-plan'),
+    (0, swagger_1.ApiOperation)({ summary: 'Create a new deposit with investment plan' }),
+    (0, swagger_1.ApiResponse)({ status: 201, description: 'The deposit has been successfully created.' }),
+    (0, swagger_1.ApiResponse)({ status: 400, description: 'Invalid input data.' }),
+    (0, swagger_1.ApiResponse)({ status: 401, description: 'Unauthorized.' }),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, create_deposit_with_plan_dto_1.CreateDepositWithPlanDto]),
+    __metadata("design:returntype", Promise)
+], TransactionsController.prototype, "createDepositWithPlan", null);
 __decorate([
     (0, common_1.Get)(),
     __param(0, (0, common_1.Request)()),
@@ -67,16 +84,8 @@ __decorate([
     __param(0, (0, common_1.Request)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], TransactionsController.prototype, "getStats", null);
-__decorate([
-    (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Request)()),
-    __param(1, (0, common_1.Param)('id')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, String]),
-    __metadata("design:returntype", void 0)
-], TransactionsController.prototype, "findOne", null);
 __decorate([
     (0, common_1.UseGuards)(roles_guard_1.RolesGuard),
     (0, roles_decorator_1.Roles)('admin'),
@@ -95,9 +104,19 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], TransactionsController.prototype, "reject", null);
+__decorate([
+    (0, common_1.Get)(':id'),
+    __param(0, (0, common_1.Request)()),
+    __param(1, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:returntype", void 0)
+], TransactionsController.prototype, "findOne", null);
 exports.TransactionsController = TransactionsController = __decorate([
-    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
+    (0, swagger_1.ApiTags)('transactions'),
     (0, common_1.Controller)('transactions'),
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     __metadata("design:paramtypes", [transactions_service_1.TransactionsService])
 ], TransactionsController);
 //# sourceMappingURL=transactions.controller.js.map

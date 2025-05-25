@@ -6,6 +6,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { TransactionStats } from './interfaces/transaction-stats.interface';
 
 @ApiTags('transactions')
 @Controller('transactions')
@@ -40,7 +41,7 @@ export class TransactionsController {
   }
 
   @Get('stats')
-  getStats(@Request() req) {
+  getStats(@Request() req): Promise<TransactionStats> {
     return this.transactionsService.getUserTransactionStats(req.user.userId);
   }
 

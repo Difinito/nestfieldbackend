@@ -6,6 +6,7 @@ import { EventsService } from '../events/events.service';
 import { AchievementsService } from '../achievements/achievements.service';
 import { PlanAllocation } from './interfaces/plan-allocation.interface';
 import { InvestmentStatus } from '../common/enums';
+import { AccountSummary } from './interfaces/account-summary.interface';
 
 @Injectable()
 export class DashboardService {
@@ -17,7 +18,7 @@ export class DashboardService {
     private readonly achievementsService: AchievementsService,
   ) {}
 
-  async getAccountSummary(userId: string) {
+  async getAccountSummary(userId: string): Promise<AccountSummary> {
     const user = await this.usersService.findOne(userId);
     const transactionStats = await this.transactionsService.getUserTransactionStats(userId);
     const investmentStats = await this.investmentsService.getUserStatistics(userId);
@@ -31,15 +32,16 @@ export class DashboardService {
         referralCode: user.referralCode,
         referralBonus: user.referralBonus,
       },
-      balance: transactionStats.balance,
-      deposits: transactionStats.deposits,
-      withdrawals: transactionStats.withdrawals,
-      profits: transactionStats.profits,
-      referralBonuses: transactionStats.referralBonuses,
+      balance: transactionStats.total.balance,
+      deposits: transactionStats.total.deposits,
+      withdrawals: transactionStats.total.withdrawals,
+      profits: transactionStats.total.profits,
+      referralBonuses: transactionStats.total.referralBonuses,
       activeInvestments: investmentStats.activeInvestments,
       completedInvestments: investmentStats.completedInvestments,
       totalInvested: investmentStats.totalInvested,
       totalProfit: investmentStats.totalProfit,
+      assetStats: transactionStats.byAsset,
     };
   }
 

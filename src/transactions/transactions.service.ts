@@ -6,6 +6,7 @@ import { TransactionStatus, TransactionType, CryptoAsset, InvestmentStatus } fro
 import { InvestmentPlansService } from '../investments/investment-plans.service';
 import { CreateDepositWithPlanDto } from './dto/create-deposit-with-plan.dto';
 import { ConfigService } from '../config/config.service';
+import { TransactionStats } from './interfaces/transaction-stats.interface';
 
 @Injectable()
 export class TransactionsService {
@@ -166,47 +167,84 @@ export class TransactionsService {
     });
   }
 
-  async getUserTransactionStats(userId: string) {
+  async getUserTransactionStats(userId: string): Promise<TransactionStats> {
     // Get all completed transactions for the user
     const transactions = await this.prisma.transaction.findMany({
       where: { userId, status: 'COMPLETED' },
     });
 
-    // Calculate totals by type
-    const deposits = transactions
-      .filter(t => t.type === 'DEPOSIT')
-      .reduce((sum, t) => sum + Number(t.amount), 0);
-      
-    const withdrawals = transactions
-      .filter(t => t.type === 'WITHDRAWAL')
-      .reduce((sum, t) => sum + Number(t.amount), 0);
-      
-    const profits = transactions
-      .filter(t => t.type === 'PROFIT')
-      .reduce((sum, t) => sum + Number(t.amount), 0);
-      
-    const referralBonuses = transactions
-      .filter(t => t.type === 'REFERRAL_BONUS')
-      .reduce((sum, t) => sum + Number(t.amount), 0);
+    // Initialize stats object with asset-specific tracking
+    const stats = {
+      total: {
+        deposits: 0,
+        withdrawals: 0,
+        profits: 0,
+        referralBonuses: 0,
+        balance: 0
+      },
+      byAsset: {} as Record<string, {
+        deposits: number;
+        withdrawals: number;
+        profits: number;
+        referralBonuses: number;
+        balance: number;
+      }>,
+      recentTransactions: await this.prisma.transaction.findMany({
+        where: { userId },
+        orderBy: { createdAt: 'desc' },
+        take: 5,
+      })
+    };
 
-    // Calculate balance
-    const balance = deposits + profits + referralBonuses - withdrawals;
+    // Process each transaction
+    transactions.forEach(t => {
+      const amount = Number(t.amount);
+      const asset = t.asset;
 
-    // Get recent transactions
-    const recentTransactions = await this.prisma.transaction.findMany({
-      where: { userId },
-      orderBy: { createdAt: 'desc' },
-      take: 5,
+      // Initialize asset stats if not exists
+      if (!stats.byAsset[asset]) {
+        stats.byAsset[asset] = {
+          deposits: 0,
+          withdrawals: 0,
+          profits: 0,
+          referralBonuses: 0,
+          balance: 0
+        };
+      }
+
+      // Update totals based on transaction type
+      switch (t.type) {
+        case 'DEPOSIT':
+          stats.total.deposits += amount;
+          stats.byAsset[asset].deposits += amount;
+          break;
+        case 'WITHDRAWAL':
+          stats.total.withdrawals += amount;
+          stats.byAsset[asset].withdrawals += amount;
+          break;
+        case 'PROFIT':
+          stats.total.profits += amount;
+          stats.byAsset[asset].profits += amount;
+          break;
+        case 'REFERRAL_BONUS':
+          stats.total.referralBonuses += amount;
+          stats.byAsset[asset].referralBonuses += amount;
+          break;
+      }
     });
 
-    return {
-      deposits,
-      withdrawals,
-      profits,
-      referralBonuses,
-      balance,
-      recentTransactions,
-    };
+    // Calculate balances
+    stats.total.balance = stats.total.deposits + stats.total.profits + 
+                         stats.total.referralBonuses - stats.total.withdrawals;
+
+    // Calculate balances for each asset
+    Object.keys(stats.byAsset).forEach(asset => {
+      const assetStats = stats.byAsset[asset];
+      assetStats.balance = assetStats.deposits + assetStats.profits + 
+                          assetStats.referralBonuses - assetStats.withdrawals;
+    });
+
+    return stats;
   }
 
   async createDepositWithPlan(userId: string, createDepositDto: CreateDepositWithPlanDto) {

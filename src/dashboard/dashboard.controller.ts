@@ -1,6 +1,7 @@
 import { Controller, Get, UseGuards, Request, Param } from '@nestjs/common';
 import { DashboardService } from './dashboard.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { AccountSummary } from './interfaces/account-summary.interface';
 
 @UseGuards(JwtAuthGuard)
 @Controller('dashboard')
@@ -8,7 +9,7 @@ export class DashboardController {
   constructor(private readonly dashboardService: DashboardService) {}
 
   @Get('account-summary')
-  getAccountSummary(@Request() req) {
+  getAccountSummary(@Request() req): Promise<AccountSummary> {
     return this.dashboardService.getAccountSummary(req.user.userId);
   }
 

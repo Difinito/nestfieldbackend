@@ -45,7 +45,7 @@ __decorate([
     __param(0, (0, common_1.Request)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:returntype", Promise)
 ], DashboardController.prototype, "getAccountSummary", null);
 __decorate([
     (0, common_1.Get)('portfolio-allocation'),

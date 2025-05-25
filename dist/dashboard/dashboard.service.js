@@ -38,15 +38,16 @@ let DashboardService = class DashboardService {
                 referralCode: user.referralCode,
                 referralBonus: user.referralBonus,
             },
-            balance: transactionStats.balance,
-            deposits: transactionStats.deposits,
-            withdrawals: transactionStats.withdrawals,
-            profits: transactionStats.profits,
-            referralBonuses: transactionStats.referralBonuses,
+            balance: transactionStats.total.balance,
+            deposits: transactionStats.total.deposits,
+            withdrawals: transactionStats.total.withdrawals,
+            profits: transactionStats.total.profits,
+            referralBonuses: transactionStats.total.referralBonuses,
             activeInvestments: investmentStats.activeInvestments,
             completedInvestments: investmentStats.completedInvestments,
             totalInvested: investmentStats.totalInvested,
             totalProfit: investmentStats.totalProfit,
+            assetStats: transactionStats.byAsset,
         };
     }
     async getPortfolioAllocation(userId) {
