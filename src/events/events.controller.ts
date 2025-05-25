@@ -19,7 +19,6 @@ export class EventsController {
   findUpcoming() {
     return this.eventsService.findUpcoming();
   }
-
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.eventsService.findOne(id);
